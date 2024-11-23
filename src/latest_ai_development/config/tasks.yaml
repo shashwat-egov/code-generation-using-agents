@@ -1,0 +1,37 @@
+parse_api_contract:
+  description: >
+    Parse the provided Open API 3.0 contract carefully to generate design and implementation requirements for the Controller, Service, and Repository layers tagwise for all the APIs.
+  expected_output: >
+    A clear breakdown of the API contract into tasks for each layer, including endpoint details, data models, and service methods.
+
+implement_controller:
+  description: >
+    Create the controller layer as per the parsed requirements from the API contract.
+    Ensure endpoints, input validation, and error handling align with the contract.
+  expected_output: >
+    Fully functional controller classes for all API endpoints.
+
+implement_service:
+  description: >
+    Implement the service layer with business logic derived from the API contract.
+  expected_output: >
+    Service classes implementing all required business logic.
+
+implement_repository:
+  description: >
+    Create the repository layer to handle database operations.
+    Ensure JPA/Hibernate mappings align with data models from the API contract.
+  expected_output: >
+    Repository classes and configuration for seamless data interaction.
+
+perform_testing:
+  description: >
+    Test the application against the API contract using tools like JUnit or Postman.
+  expected_output: >
+    A test report detailing passed/failed cases and coverage.
+
+write_project_task:
+  description: >
+    Create all necessary files for the Spring Boot application, including pom.xml, application.properties, and Java classes for controllers, services, repositories, and models.
+  expected_output: >
+    A complete and runnable Spring Boot project with all files written to disk in the appropriate structure in a folder named "spring".
