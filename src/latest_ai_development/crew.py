@@ -30,36 +30,48 @@ class LatestAiDevelopmentCrew:
             tools=[FileReadTool(file_path='D:/latest_ai_development/openapi.yaml')],
             memory=True
         )
-
-    @agent
-    def controller_developer(self) -> Agent:
-        if 'controller_developer' not in self.agents_config:
-            raise KeyError("Missing configuration for 'controller_developer' in agents_config.")
-        return Agent(
-            config=self.agents_config['controller_developer'],
-            allow_delegation=False,
-            verbose=True
-        )
-
-    @agent
-    def service_developer(self) -> Agent:
-        if 'service_developer' not in self.agents_config:
-            raise KeyError("Missing configuration for 'service_developer' in agents_config.")
-        return Agent(
-            config=self.agents_config['service_developer'],
-            allow_delegation=False,
-            verbose=True
-        )
     
     @agent
-    def repository_developer(self) -> Agent:
-        if 'repository_developer' not in self.agents_config:
-            raise KeyError("Missing configuration for 'repository_developer' in agents_config.")
+    def software_engineer(self) -> Agent:
+        if 'software_engineer' not in self.agents_config:
+            raise KeyError("Missing configuration for 'software_engineer' in agents_config.")
         return Agent(
-            config=self.agents_config['repository_developer'],
+            config=self.agents_config['software_engineer'],
             allow_delegation=False,
-            verbose=True
+            tools=[FileWriterTool()],
+            verbose=True,
+            memory=False
         )
+
+    # @agent
+    # def controller_developer(self) -> Agent:
+    #     if 'controller_developer' not in self.agents_config:
+    #         raise KeyError("Missing configuration for 'controller_developer' in agents_config.")
+    #     return Agent(
+    #         config=self.agents_config['controller_developer'],
+    #         allow_delegation=False,
+    #         verbose=True
+    #     )
+
+    # @agent
+    # def service_developer(self) -> Agent:
+    #     if 'service_developer' not in self.agents_config:
+    #         raise KeyError("Missing configuration for 'service_developer' in agents_config.")
+    #     return Agent(
+    #         config=self.agents_config['service_developer'],
+    #         allow_delegation=False,
+    #         verbose=True
+    #     )
+    
+    # @agent
+    # def repository_developer(self) -> Agent:
+    #     if 'repository_developer' not in self.agents_config:
+    #         raise KeyError("Missing configuration for 'repository_developer' in agents_config.")
+    #     return Agent(
+    #         config=self.agents_config['repository_developer'],
+    #         allow_delegation=False,
+    #         verbose=True
+    #     )
 
     @agent
     def qa_engineer(self) -> Agent:
@@ -71,16 +83,16 @@ class LatestAiDevelopmentCrew:
             verbose=True
         )
 
-    @agent
-    def project_writer(self) -> Agent:
-        if 'project_writer' not in self.agents_config:
-            raise KeyError("Missing configuration for 'project_writer' in agents_config.")
-        return Agent(
-            config=self.agents_config['project_writer'],
-            allow_delegation=False,
-            verbose=True,
-            tools=[FileWriterTool()]
-        )
+    # @agent
+    # def project_writer(self) -> Agent:
+    #     if 'project_writer' not in self.agents_config:
+    #         raise KeyError("Missing configuration for 'project_writer' in agents_config.")
+    #     return Agent(
+    #         config=self.agents_config['project_writer'],
+    #         allow_delegation=False,
+    #         verbose=True,
+    #         tools=[FileWriterTool()]
+    #     )
 
     @task
     def parse_api_contract(self) -> Task:
@@ -90,33 +102,42 @@ class LatestAiDevelopmentCrew:
             config=self.tasks_config['parse_api_contract'],
             agent=self.tech_lead()
         )
-
-    @task
-    def implement_controller(self) -> Task:
-        if 'implement_controller' not in self.tasks_config:
-            raise KeyError("Missing configuration for 'implement_controller' in tasks_config.")
-        return Task(
-            config=self.tasks_config['implement_controller'],
-            agent=self.controller_developer()
-        )
-
-    @task
-    def implement_service(self) -> Task:
-        if 'implement_service' not in self.tasks_config:
-            raise KeyError("Missing configuration for 'implement_service' in tasks_config.")
-        return Task(
-            config=self.tasks_config['implement_service'],
-            agent=self.service_developer()
-        )
     
     @task
-    def implement_repository(self) -> Task:
-        if 'implement_repository' not in self.tasks_config:
-            raise KeyError("Missing configuration for 'implement_repository' in tasks_config.")
+    def implement_application(self) -> Task:
+        if 'implement_application' not in self.tasks_config:
+            raise KeyError("Missing configuration for 'implement_application' in tasks_config.")
         return Task(
-            config=self.tasks_config['implement_repository'],
-            agent=self.repository_developer()
+            config=self.tasks_config['implement_application'],
+            agent=self.software_engineer()
         )
+
+    # @task
+    # def implement_controller(self) -> Task:
+    #     if 'implement_controller' not in self.tasks_config:
+    #         raise KeyError("Missing configuration for 'implement_controller' in tasks_config.")
+    #     return Task(
+    #         config=self.tasks_config['implement_controller'],
+    #         agent=self.controller_developer()
+    #     )
+
+    # @task
+    # def implement_service(self) -> Task:
+    #     if 'implement_service' not in self.tasks_config:
+    #         raise KeyError("Missing configuration for 'implement_service' in tasks_config.")
+    #     return Task(
+    #         config=self.tasks_config['implement_service'],
+    #         agent=self.service_developer()
+    #     )
+    
+    # @task
+    # def implement_repository(self) -> Task:
+    #     if 'implement_repository' not in self.tasks_config:
+    #         raise KeyError("Missing configuration for 'implement_repository' in tasks_config.")
+    #     return Task(
+    #         config=self.tasks_config['implement_repository'],
+    #         agent=self.repository_developer()
+    #     )
     
     @task
     def perform_testing(self) -> Task:
@@ -127,14 +148,14 @@ class LatestAiDevelopmentCrew:
             agent=self.qa_engineer()
         )
     
-    @task
-    def write_project_task(self) -> Task:
-        if 'write_project_task' not in self.tasks_config:
-            raise KeyError("Missing configuration for 'write_project_task' in tasks_config.")
-        return Task(
-            config=self.tasks_config['write_project_task'],
-            agent=self.project_writer()
-        )
+    # @task
+    # def write_project_task(self) -> Task:
+    #     if 'write_project_task' not in self.tasks_config:
+    #         raise KeyError("Missing configuration for 'write_project_task' in tasks_config.")
+    #     return Task(
+    #         config=self.tasks_config['write_project_task'],
+    #         agent=self.project_writer()
+    #     )
 
     @crew
     def crew(self) -> Crew:
