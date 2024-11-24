@@ -1,35 +1,54 @@
 parse_api_contract:
   description: >
-    Parse the provided Open API 3.0 contract carefully to generate design and implementation requirements for the Controller, Service, and Repository layers tagwise for all the APIs.
+    Parse the provided Open API 3.0 contract carefully and break it down into implementation requirements for the Controller, Service, and Repository layers tagwise for all the APIs.
   expected_output: >
-    A clear breakdown of the API contract into tasks for each layer, including endpoint details, data models, database schema and service methods.
+    A detailed breakdown of the API contract into tasks for each layer, including endpoint details, data models, database schema, and service methods.
+
+# implement_application:
+#   description: >
+#     Based on the requirements, create a fully functional Spring Boot application, including:
+#         - Set up the project structure, configure Maven and H2 database settings, `pom.xml`, and write the main application class.
+#         - Persistence layer with JPA entities and repository interfaces.
+#         - Service layer with business logic methods.
+#         - Controller layer with endpoint mappings.
+#         - SQL scripts (`schema.sql` and `data.sql`) for H2 database.
+#   expected_output: >
+#     A complete and runnable Spring Boot project written to disk in the appropriate folder structure, including configuration files and all required code in a folder called "generated-code".
 
 implement_application:
   description: >
-    Develop a fully functional and runnable Spring Boot application based on the implementation details from the Tech Lead and make sure you do not miss out on creating pom.xml and Main classes too.
+      Based on the parsed requirements, create a fully functional Spring Boot application with the following:
+        - Project setup:
+            - Create a Maven project structure.
+            - Write a `pom.xml` file with the following dependencies and versions:
+              - Spring Boot Starter Web: `org.springframework.boot:spring-boot-starter-web:3.2.2`
+              - Spring Boot Starter Data JPA: `org.springframework.boot:spring-boot-starter-data-jpa:3.2.2`
+              - H2 Database: `com.h2database:h2:2.1.214`
+              - Spring Boot Starter Test: `org.springframework.boot:spring-boot-starter-test:3.2.2`
+              - Jakarta Persistence API: `jakarta.persistence:jakarta.persistence-api:3.1.0`
+            - Ensure compatibility with Java 17.
+            - Write the main application class.
+        - Persistence Layer:
+            - Generate JPA entity classes using the `jakarta.persistence` package (not `javax.persistence`) and ensure that each entity class has getters and setters for all attributes.
+            - Create Spring Data JPA repository interfaces.
+            - Wrap all table names in `schema.sql` with double quotes to avoid issues with reserved keywords or special characters.
+            - Write `schema.sql` and `data.sql` files for the H2 database in `/src/main/resources/`.
+        - Service Layer:
+            - Implement business logic methods to interact with the repository layer for CRUD operations.
+        - Controller Layer:
+            - Create REST controllers with appropriate mappings for all API endpoints.
+        - H2 Database Configuration:
+            - Add the following configuration to `application.properties`:
+              ```
+              spring.datasource.url=jdbc:h2:mem:testdb
+              spring.datasource.driverClassName=org.h2.Driver
+              spring.datasource.username=sa
+              spring.datasource.password=password
+              spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+              spring.h2.console.enabled=true
+              ```
   expected_output: >
-    A complete and runnable Spring Boot project with all files written to disk in the appropriate structure in a folder named "spring".
-
-
-# implement_controller:
-#   description: >
-#     Create the controller layer as per the parsed requirements from the API contract.
-#     Ensure endpoints, input validation, and error handling align with the contract.
-#   expected_output: >
-#     Fully functional controller classes for all API endpoints.
-
-# implement_service:
-#   description: >
-#     Implement the service layer with business logic derived from the API contract.
-#   expected_output: >
-#     Service classes implementing all required business logic.
-
-# implement_repository:
-#   description: >
-#     Create the repository layer to handle database operations.
-#     Ensure JPA/Hibernate mappings align with data models from the API contract.
-#   expected_output: >
-#     Repository classes and configuration for seamless data interaction.
+    A complete and runnable Spring Boot project written to disk in the appropriate folder structure, including configuration files, code, and SQL scripts in a folder called "gene-code". All persistence-layer code should use `jakarta.persistence`.
 
 perform_testing:
   description: >
@@ -37,8 +56,51 @@ perform_testing:
   expected_output: >
     A test report detailing passed/failed cases and coverage.
 
-# write_project_task:
-#   description: >
-#     Create all necessary files for the Spring Boot application, including pom.xml with all necessary dependencies, application.properties, and Java classes for controllers, services, repositories, models and Main class based on the classes implemented by all engineers.
-#   expected_output: >
-#     A complete and runnable Spring Boot project with all files written to disk in the appropriate structure in a folder named "spring".
+# tasks:
+#   - name: parse_api_contract
+#     agent: tech_lead_agent
+#     description: >
+#       Parse the OpenAPI spec and break it down into implementation requirements for controllers, services, repositories, and database schemas.
+#     expected_output: >
+#       A detailed breakdown of the API contract into tasks for each layer, including endpoint details, data models, database schema, and service methods.
+
+#   - name: implement_application
+#     agent: developer_agent
+#     description: >
+#       Based on the parsed requirements, create a fully functional Spring Boot application with the following:
+#         - Project setup:
+#             - Create a Maven project structure.
+#             - Write a `pom.xml` file with the following dependencies and versions:
+#               - Spring Boot Starter Web: `org.springframework.boot:spring-boot-starter-web:3.2.2`
+#               - Spring Boot Starter Data JPA: `org.springframework.boot:spring-boot-starter-data-jpa:3.2.2`
+#               - H2 Database: `com.h2database:h2:2.1.214`
+#               - Spring Boot Starter Test: `org.springframework.boot:spring-boot-starter-test:3.2.2`
+#               - Jakarta Persistence API: `jakarta.persistence:jakarta.persistence-api:3.1.0`
+#             - Ensure compatibility with Java 17.
+#         - Persistence Layer:
+#             - Generate JPA entity classes using the `jakarta.persistence` package (not `javax.persistence`).
+#             - Create Spring Data JPA repository interfaces.
+#             - Write `schema.sql` and `data.sql` files for the H2 database in `/src/main/resources/`.
+#         - Service Layer:
+#             - Implement business logic methods to interact with the repository layer for CRUD operations.
+#         - Controller Layer:
+#             - Create REST controllers with appropriate mappings for all API endpoints.
+#         - H2 Database Configuration:
+#             - Add the following configuration to `application.properties`:
+#               ```
+#               spring.datasource.url=jdbc:h2:mem:testdb
+#               spring.datasource.driverClassName=org.h2.Driver
+#               spring.datasource.username=sa
+#               spring.datasource.password=password
+#               spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+#               spring.h2.console.enabled=true
+#               ```
+#     expected_output: >
+#       A complete and runnable Spring Boot project written to disk in the appropriate folder structure, including configuration files, code, and SQL scripts. All persistence-layer code should use `jakarta.persistence`.
+
+#   - name: perform_testing
+#     agent: qa_agent
+#     description: >
+#       Test the generated application against the API contract using tools like JUnit and Postman. Ensure that all endpoints work as expected and that CRUD operations interact correctly with the H2 database.
+#     expected_output: >
+#       A test report detailing passed/failed cases and coverage, confirming that the application is fully functional and adheres to the OpenAPI specification.

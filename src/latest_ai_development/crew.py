@@ -28,7 +28,7 @@ class LatestAiDevelopmentCrew:
             allow_delegation=True,
             verbose=True,
             tools=[FileReadTool(file_path='D:/latest_ai_development/openapi.yaml')],
-            memory=True
+            memory=False
         )
     
     @agent
