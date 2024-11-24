@@ -17,7 +17,7 @@ parse_api_contract:
 
 implement_application:
   description: >
-      Based on the parsed requirements, create a fully functional Spring Boot application with the following:
+      Based on the Implementation Requirements for the Spring Boot Application, create a fully functional Spring Boot application with the following steps:
         - Project setup:
             - Create a Maven project structure.
             - Write a `pom.xml` file with the following dependencies and versions:
@@ -26,17 +26,21 @@ implement_application:
               - H2 Database: `com.h2database:h2:2.1.214`
               - Spring Boot Starter Test: `org.springframework.boot:spring-boot-starter-test:3.2.2`
               - Jakarta Persistence API: `jakarta.persistence:jakarta.persistence-api:3.1.0`
+              - Lombok: `org.projectlombok:lombok:1.18.28`
             - Ensure compatibility with Java 17.
             - Write the main application class.
         - Persistence Layer:
-            - Generate JPA entity classes using the `jakarta.persistence` package (not `javax.persistence`) and ensure that each entity class has getters and setters for all attributes.
+            - Generate JPA entity classes using the `jakarta.persistence` package (not `javax.persistence`) and add Lombok annotations (`@Getter`, `@Setter`, and optionally `@NoArgsConstructor` and `@AllArgsConstructor`) to entity classes to auto-generate getters and setters.
             - Create Spring Data JPA repository interfaces.
             - Append `_entity` to all table names in the `schema.sql` file and JPA `@Table` annotations to avoid clashes with reserved keywords and ensuring that `@Table` annotations match the table names in `schema.sql`.
             - Write `schema.sql` and `data.sql` files for the H2 database in `/src/main/resources/`.
+            - Compare generated JPA entity classes and created JPA repository interfaces against the task list provided by the tech lead and perform any missing tasks.
         - Service Layer:
-            - Implement business logic methods to interact with the repository layer for CRUD operations.
+            - Implement business logic methods to interact with the repository layer for CRUD operations for all API endpoints.
+            - Compare generated service classes against the task list provided by the tech lead and perform any missing tasks.
         - Controller Layer:
             - Create REST controllers with appropriate mappings for all API endpoints.
+            - Compare generated controllers against the task list provided by the tech lead and perform any missing tasks.
         - H2 Database Configuration:
             - Add the following configuration to `application.properties`:
               ```
@@ -48,7 +52,7 @@ implement_application:
               spring.h2.console.enabled=true
               ```
   expected_output: >
-    A complete and runnable Spring Boot project written to disk in the appropriate folder structure, including configuration files, code, and SQL scripts in a folder called "ge-code". All persistence-layer code should use `jakarta.persistence`.
+    A complete and runnable Spring Boot project written to disk in the appropriate folder structure, including configuration files, code, and SQL scripts in a folder called "gen-code". All persistence-layer code should use `jakarta.persistence`.
 
 perform_testing:
   description: >
